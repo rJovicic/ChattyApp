@@ -50,10 +50,7 @@ function Homepage() {
               onChange={handleColorChange}
             />
           </div>
-          <button type="submit" onClick={handleSubmit}>
-  Login
-</button>
-
+          <button type="submit">Login</button>
         </form>
       </div>
       <footer className="footer-container">

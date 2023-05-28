@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Input(props) {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [text, setText] = useState("");
 
   const onChange = (e) => {
@@ -15,9 +15,9 @@ function Input(props) {
     setText("");
   };
 
-const handleLogout = () => {
-  navigate("/");
-}
+  const handleLogout = () => {
+    navigate("/");
+  };
 
   return (
     <div className="Input">
@@ -31,7 +31,7 @@ const handleLogout = () => {
         />
         <button>Send</button>
         <button onClick={handleLogout} className="submit-btn">Logout</button>
-        </form>
+      </form>
     </div>
   );
 }

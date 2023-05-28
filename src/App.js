@@ -1,5 +1,5 @@
 import "./App.css";
-import Messages from "./components/Messages";
+import Messages from "./pages/Messages";
 import Homepage from "./pages/Homepage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 

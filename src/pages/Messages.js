@@ -1,13 +1,13 @@
- import React, { useState, useEffect } from "react";
-import Input from "./Input";
-import Header from "./Header";
+import React, { useState, useEffect } from "react";
+import Input from "../components/Input";
+import Header from "../components/Header";
 import { useLocation } from "react-router-dom";
 import { AvatarGenerator } from 'random-avatar-generator';
 
 function Messages() {
   const location = useLocation();
   const generator = new AvatarGenerator();
-  const { username,color } = location.state || {};
+  const { username, color } = location.state || {};
   const [messages, setMessages] = useState([]);
   const [member, setMember] = useState({
     username: username,
@@ -17,7 +17,7 @@ function Messages() {
   const [onlineMembers, setOnlineMembers] = useState([]);
   const [disconnectedUser, setDisconnectedUser] = useState("");
   const [joinedUser, setJoinedUser] = useState("");
-  
+
   const [drone, setDrone] = useState(null);
 
   useEffect(() => {
@@ -28,12 +28,12 @@ function Messages() {
 
     return () => {
       drone.close();
-    }
+    };
   }, [member]);
 
   useEffect(() => {
     if (drone) {
-      drone.on("open",  (error) => {
+      drone.on("open", (error) => {
         if (error) {
           return console.error(error);
         }
@@ -41,7 +41,7 @@ function Messages() {
         member.id = drone.clientId;
         setMember(member);
       });
-      
+
       const room = drone.subscribe("observable-room");
       room.on("data", (data, member) => {
         setMessages((prevArray) => [...prevArray, { member, text: data }]);
@@ -59,27 +59,24 @@ function Messages() {
       room.on('member_leave', member => {
         setOnlineMembers(prevMembers => prevMembers.filter(m => m.id !== member.id));
         setDisconnectedUser(member.clientData.username);
-
       });
     }
   }, [drone, member]);
 
-const onSendMessage = (message) => {
-  try {
-    drone.publish({
-      room: "observable-room",
-      message: message,
-    });
-  } catch (e) {
-    alert("Enter your message");
-  }
-};
-
-
+  const onSendMessage = (message) => {
+    try {
+      drone.publish({
+        room: "observable-room",
+        message: message,
+      });
+    } catch (e) {
+      alert("Enter your message");
+    }
+  };
 
   const renderMessage = (message, index, currentMember) => {
     const { member, text } = message;
-    
+
     let className = null;
     if (member.id === currentMember.id) {
       className = "Messages-message";
@@ -91,11 +88,10 @@ const onSendMessage = (message) => {
     };
     return (
       <li key={index} className={className}>
-        <span
-          className="avatar">
-            <img src={member.clientData.avatar} />
-          </span>  
-          <div className="Message-content" >
+        <span className="avatar">
+          <img src={member.clientData.avatar} alt="Avatar" />
+        </span>
+        <div className="Message-content">
           <div className="username">{member.clientData.username}</div>
           <div className="text" style={messageStyle}>{text}</div>
         </div>
@@ -103,25 +99,25 @@ const onSendMessage = (message) => {
     );
   };
 
-
-
   return (
     <div className="App">
       <Header />
-      <div className="Online-count">Online members: {onlineMembers.length}
-      {disconnectedUser && <span className="Disconnected-message">{disconnectedUser} left the room</span>}
-      {joinedUser && <div className="joined-message">{joinedUser} join the room</div>}
+      <div className="border-box">
+        <div className="Online-count">
+          Online members: {onlineMembers.length}
+          {disconnectedUser && <span className="Disconnected-message">{disconnectedUser} left the room</span>}
+          {joinedUser && <div className="joined-message">{joinedUser} joined the room</div>}
+        </div>
       </div>
-      <ul className="Messages-list" >
-      {messages?.map((message, index) =>
-  renderMessage(message, index, member)
-)}
+      <ul className="Messages-list">
+        {messages?.map((message, index) =>
+          renderMessage(message, index, member)
+        )}
       </ul>
       <Input onSendMessage={onSendMessage} />
     </div>
   );
+  
 }
 
-
-export default Messages; 
-
+export default Messages;

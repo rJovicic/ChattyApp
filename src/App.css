@@ -106,15 +106,6 @@ button {
   margin: 0;
 }
 
-.homepage-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background-color: #f2f2f2;
-}
-
 .page-container {
   display: flex;
   flex-direction: column;
@@ -172,4 +163,16 @@ button:hover {
   left: 0;
   bottom: 0;
   width: 100%;
+}
+
+.border-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
